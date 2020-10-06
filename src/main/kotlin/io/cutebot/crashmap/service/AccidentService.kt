@@ -50,7 +50,7 @@ class AccidentService(
     }
 
     fun addAccidentDoc(currentAccidentId: Int, document: Document) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
 }

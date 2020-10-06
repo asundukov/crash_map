@@ -18,8 +18,11 @@ class AboutBlock(
 """
 <b>О проекте</b>
 
-<a href="https://github.com/asundukov/crash_map">meme-gen-bot</a>
+Github: <a href="https://github.com/asundukov/crash_map">Crash map</a>
+
+<b>Контакты автора:</b>
 Contact: @$tgContact
+Channel: @developers_mind
 Twitter: <a href="https://twitter.com/$twitterContact">@$twitterContact</a>
 """
 
