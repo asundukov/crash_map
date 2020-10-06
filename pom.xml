@@ -77,16 +77,16 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.cutebot.telegram.framework</groupId>
-            <artifactId>kotlin-telegram-framework</artifactId>
-            <version>1.0.1-RELEASE</version>
-        </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.github.asundukov.kotlin-telegram-framework</groupId>-->
+<!--            <groupId>io.cutebot.telegram.framework</groupId>-->
 <!--            <artifactId>kotlin-telegram-framework</artifactId>-->
-<!--            <version>1.0.1-beta-4</version>-->
+<!--            <version>1.0.1-RELEASE</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>com.github.asundukov.kotlin-telegram-framework</groupId>
+            <artifactId>kotlin-telegram-framework</artifactId>
+            <version>1.0.1-beta-6</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -17,10 +17,14 @@ class AboutBlock(
     val message =
 """
 <b>О проекте</b>
+Карта ДТП
+https://dtp-stat.ru/
+Канал с анализом ДТП @crash_map
+Чат проекта @crash_map_chat
 
-Github: <a href="https://github.com/asundukov/crash_map">Crash map</a>
+Github (бот): https://github.com/asundukov/crash_map
 
-<b>Контакты автора:</b>
+<b>Контакты автора бота:</b>
 Contact: @$tgContact
 Channel: @developers_mind
 Twitter: <a href="https://twitter.com/$twitterContact">@$twitterContact</a>
