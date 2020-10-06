@@ -5,7 +5,7 @@ import io.cutebot.crashmap.service.AccidentService
 import io.cutebot.telegram.bot.block.BotBlock
 import io.cutebot.telegram.bot.block.DoNothingBotBlock.Companion.DO_NOTHING_BOT_BLOCK
 import io.cutebot.telegram.bot.command.Command
-import io.cutebot.telegram.bot.model.RawMessage
+import io.cutebot.telegram.bot.model.message.RawMessage
 import org.springframework.stereotype.Service
 
 @Service

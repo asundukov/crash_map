@@ -2,10 +2,11 @@ package io.cutebot.crashmap.bot.blocks
 
 import io.cutebot.crashmap.service.AccidentService
 import io.cutebot.telegram.bot.block.BotBlock
-import io.cutebot.telegram.bot.model.DocumentMessage
-import io.cutebot.telegram.bot.model.PhotoMessage
-import io.cutebot.telegram.bot.model.TextMessage
+import io.cutebot.telegram.bot.model.message.DocumentMessage
+import io.cutebot.telegram.bot.model.message.PhotoMessage
+import io.cutebot.telegram.bot.model.message.TextMessage
 import io.cutebot.telegram.bot.model.User
+import io.cutebot.telegram.bot.model.message.VideoMessage
 import io.cutebot.telegram.client.model.keyboard.TgKeyboard
 import io.cutebot.telegram.client.model.keyboard.TgKeyboardRemove
 import io.cutebot.telegram.client.model.keyboard.builder.ReplyKeyboardSimpleBuilder
@@ -48,6 +49,11 @@ class MainBlock(
         accidentService.addAccidentText(currentAccidentId, message.text)
         nextMessage = receivedMessage
         nextKeyboard = ReplyKeyboardSimpleBuilder().addRow(finishButton).build()
+        return this
+    }
+
+    override fun handleVideo(message: VideoMessage): BotBlock {
+        //TODO("Not yet implemented")
         return this
     }
 

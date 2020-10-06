@@ -3,7 +3,7 @@ package io.cutebot.crashmap.bot.commands
 import io.cutebot.crashmap.bot.blocks.AboutBlock
 import io.cutebot.telegram.bot.block.BotBlock
 import io.cutebot.telegram.bot.command.Command
-import io.cutebot.telegram.bot.model.RawMessage
+import io.cutebot.telegram.bot.model.message.RawMessage
 import org.springframework.stereotype.Service
 
 @Service

@@ -2,7 +2,7 @@ package io.cutebot.crashmap.bot.blocks
 
 import io.cutebot.telegram.bot.block.BotBlock
 import io.cutebot.telegram.bot.block.BotTextBlock
-import io.cutebot.telegram.bot.model.TextMessage
+import io.cutebot.telegram.bot.model.message.TextMessage
 import io.cutebot.telegram.interaction.model.ChatAnswer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
