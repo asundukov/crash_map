@@ -85,7 +85,7 @@
         <dependency>
             <groupId>com.github.asundukov.kotlin-telegram-framework</groupId>
             <artifactId>kotlin-telegram-framework</artifactId>
-            <version>1.0.1-beta-6</version>
+            <version>1.0.1-beta-7</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

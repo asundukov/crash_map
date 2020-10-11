@@ -23,10 +23,19 @@ data class AccidentMessageEntity(
         val accident: AccidentEntity,
 
         @OneToMany(mappedBy = "accidentMessage", cascade = [CascadeType.ALL])
-        val media: MutableList<AccidentMessageMediaEntity>,
+        val files: MutableList<AccidentMessageFileEntity>,
+
+        @OneToMany(mappedBy = "accidentMessage", cascade = [CascadeType.ALL])
+        val contacts: MutableList<AccidentMessageContactEntity>,
+
+        @OneToMany(mappedBy = "accidentMessage", cascade = [CascadeType.ALL])
+        val locations: MutableList<AccidentMessageLocationEntity>,
 
         @Column(updatable = false)
         val message: String,
+
+        @Column(updatable = false)
+        val tgMessageId: Long,
 
         @Column(updatable = false)
         val createdOn: Calendar

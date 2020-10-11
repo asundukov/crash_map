@@ -3,10 +3,13 @@ package io.cutebot.crashmap.service.manage
 import io.cutebot.crashmap.domain.accident.AccidentMessageRepository
 import io.cutebot.crashmap.domain.accident.AccidentRepository
 import io.cutebot.crashmap.domain.accident.model.AccidentEntity
+import io.cutebot.crashmap.domain.accident.model.AccidentMessageContactEntity
 import io.cutebot.crashmap.domain.accident.model.AccidentMessageEntity
-import io.cutebot.crashmap.domain.accident.model.AccidentMessageMediaEntity
+import io.cutebot.crashmap.domain.accident.model.AccidentMessageFileEntity
+import io.cutebot.crashmap.domain.accident.model.AccidentMessageLocationEntity
 import io.cutebot.crashmap.domain.usr.model.UsrEntity
 import io.cutebot.crashmap.service.model.ExistedAccident
+import io.cutebot.crashmap.service.model.FileType
 import io.cutebot.telegram.bot.model.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -30,8 +33,8 @@ class AccidentManageService(
     }
 
     @Transactional
-    fun addAccidentText(accidentId: Int, message: String) {
-        addText(accidentId, message)
+    fun addAccidentText(accidentId: Int, message: String, messageId: Long) {
+        addText(accidentId, message, messageId)
     }
 
     @Transactional
@@ -41,21 +44,25 @@ class AccidentManageService(
         accidentRepository.save(accident)
     }
 
-    internal fun addText(accidentId: Int, message: String): AccidentMessageEntity {
+    internal fun addText(accidentId: Int, message: String, messageId: Long): AccidentMessageEntity {
         val accident = accidentRepository.getOne(accidentId)
-        return createAccidentMessage(accident, message)
+        return createAccidentMessage(accident, message, messageId)
     }
 
     private fun createAccidentMessage(
             accident: AccidentEntity,
-            message: String
+            message: String,
+            messageId: Long
     ): AccidentMessageEntity {
         val accidentMessageEntity = AccidentMessageEntity(
                 accidentMessageId = 0,
                 accident = accident,
                 createdOn = Calendar.getInstance(),
                 message = message,
-                media = ArrayList()
+                files = ArrayList(),
+                contacts = ArrayList(),
+                locations = ArrayList(),
+                tgMessageId = messageId
         )
         accidentMessageRepository.save(accidentMessageEntity)
         return accidentMessageEntity
@@ -79,17 +86,77 @@ class AccidentManageService(
         return accidentEntity;
     }
 
-    fun addAccidentMedia(accidentId: Int, message: String, fileName: String, mediaType: String) {
+    fun addAccidentFile(
+            accidentId: Int,
+            message: String,
+            messageId: Long,
+            filePath: String,
+            fileType: FileType,
+            fileId: String
+    ) {
         val accident = accidentRepository.getOne(accidentId)
-        val accidentMessage = createAccidentMessage(accident, message)
-        val media = AccidentMessageMediaEntity(
-                accidentMessageMediaId = 0,
+        val accidentMessage = createAccidentMessage(accident, message, messageId)
+        val file = AccidentMessageFileEntity(
+                accidentMessageFileId = 0,
                 createdOn = Calendar.getInstance(),
-                filePath = fileName,
+                filePath = filePath,
                 accidentMessage = accidentMessage,
-                mediaType = mediaType
+                fileType = fileType,
+                tgFileId = fileId
         )
-        accidentMessage.media.add(media)
+        accidentMessage.files.add(file)
+        accidentMessageRepository.save(accidentMessage)
+    }
+
+    fun addAccidentContact(
+            accidentId: Int,
+            messageId: Long,
+            firstName: String,
+            lastName: String,
+            phone: String,
+            telegramUserId: Long?,
+            vcard: String?
+    ) {
+        val accident = accidentRepository.getOne(accidentId)
+        val accidentMessage = createAccidentMessage(accident, "", messageId)
+        val contact = AccidentMessageContactEntity(
+                accidentMessageContactId = 0,
+                createdOn = Calendar.getInstance(),
+                firstName = firstName,
+                lastName = lastName,
+                phone = phone,
+                accidentMessage = accidentMessage,
+                telegramUserId = telegramUserId,
+                vcard = vcard
+        )
+        accidentMessage.contacts.add(contact)
+        accidentMessageRepository.save(accidentMessage)
+    }
+
+    fun addAccidentLocation(
+            accidentId: Int,
+            messageId: Long,
+            longitude: Double,
+            latitude: Double,
+            address: String,
+            title: String,
+            foursquareId: String?,
+            foursquareType: String?
+    ) {
+        val accident = accidentRepository.getOne(accidentId)
+        val accidentMessage = createAccidentMessage(accident, "", messageId)
+        val contact = AccidentMessageLocationEntity(
+                accidentMessageLocationId = 0,
+                createdOn = Calendar.getInstance(),
+                accidentMessage = accidentMessage,
+                longitude = longitude,
+                latitude = latitude,
+                address = address,
+                title = title,
+                foursquareId = foursquareId,
+                foursquareType = foursquareType
+        )
+        accidentMessage.locations.add(contact)
         accidentMessageRepository.save(accidentMessage)
     }
 

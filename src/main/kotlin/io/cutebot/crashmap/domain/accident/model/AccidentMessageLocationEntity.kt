@@ -9,23 +9,36 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
-@Entity(name = "accident_message_media")
-data class AccidentMessageMediaEntity(
+@Entity(name = "accident_message_location")
+data class AccidentMessageLocationEntity(
         @Id
         @GeneratedValue(strategy = IDENTITY)
         @Column(updatable = false)
-        val accidentMessageMediaId: Int,
+        val accidentMessageLocationId: Int,
 
         @ManyToOne
         @JoinColumn(name = "accident_message_id", updatable = false)
         val accidentMessage: AccidentMessageEntity,
 
         @Column(updatable = false)
-        val filePath: String,
+        val longitude: Double,
 
         @Column(updatable = false)
-        val mediaType: String,
+        val latitude: Double,
+
+        @Column(updatable = false)
+        val address: String,
+
+        @Column(updatable = false)
+        val title: String,
+
+        @Column(updatable = false)
+        val foursquareId: String?,
+
+        @Column(updatable = false)
+        val foursquareType: String?,
 
         @Column(updatable = false)
         val createdOn: Calendar
+
 )

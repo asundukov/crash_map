@@ -1,5 +1,6 @@
 package io.cutebot.crashmap.bot.blocks
 
+import io.cutebot.crashmap.service.AccidentService
 import io.cutebot.telegram.bot.block.BotBlock
 import io.cutebot.telegram.bot.block.BotTextBlock
 import io.cutebot.telegram.bot.model.message.TextMessage
@@ -12,7 +13,9 @@ class AboutBlock(
         @Value("\${bot.contact}")
         private val tgContact: String,
         @Value("\${bot.twitter}")
-        private val twitterContact: String
+        private val twitterContact: String,
+
+        private val accidentService: AccidentService
 ): BotTextBlock {
     val message =
 """
@@ -35,6 +38,6 @@ Twitter: <a href="https://twitter.com/$twitterContact">@$twitterContact</a>
     }
 
     override fun handleText(message: TextMessage): BotBlock {
-        return FinishBlock()
+        return MainBlock(accidentService)
     }
 }
