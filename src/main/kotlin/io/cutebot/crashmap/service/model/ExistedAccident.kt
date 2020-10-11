@@ -10,7 +10,7 @@ class ExistedAccident(accidentEntity: AccidentEntity) {
 
     val user = ExistedUser(accidentEntity.usr)
     val messages = accidentEntity.messages
-            .stream().map { it -> ExistedAccidentMessage(it) }
+            .stream().map { ExistedAccidentMessage(it) }
             .toList()
 
 }

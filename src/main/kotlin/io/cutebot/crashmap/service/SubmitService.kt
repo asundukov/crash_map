@@ -1,12 +1,13 @@
 package io.cutebot.crashmap.service
 
 import io.cutebot.crashmap.service.model.ExistedAccident
+import io.cutebot.crashmap.service.model.ExistedAccidentMessage
+import io.cutebot.crashmap.tools.StringCarefulDivider
 import io.cutebot.telegram.client.TelegramApi
-import io.cutebot.telegram.client.model.TgSendPhoto
+import io.cutebot.telegram.client.model.TgForwardMessage
 import io.cutebot.telegram.client.model.TgSendTextMessage
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.io.File
 
 @Service
 class SubmitService(
@@ -20,32 +21,53 @@ class SubmitService(
     fun submitAccident(accident: ExistedAccident) {
         var counter = 1
         var message = ""
-        for (item in accident.messages) {
-            if (item.media.isNotEmpty()) {
+        for (accidentMessage in accident.messages) {
+            if (accidentMessage.noAttaches()) {
+                message += accidentMessage.message + "\n"
+            } else {
                 if (message.isNotEmpty()) {
                     message = "Сообщение ($counter) от " + accident.user.compileTgName() + "\n\n$message"
-                    val sendTextMessage = TgSendTextMessage(chatId, message)
-                    telegramApi.sendMessage(botToken, sendTextMessage)
+                    sendMessageByChunks(message)
                     counter++
                     message = ""
                 }
                 counter++
-                for (photoMessage in item.media) {
-                    val sendPhotoMessage = TgSendPhoto(
-                            chatId,
-                            File(photoMessage.filePath),
-                            item.message
-                    )
-                    telegramApi.sendPhoto(botToken, sendPhotoMessage)
+                for (fileMessage in accidentMessage.files) {
+                    forwardMessage(accident, accidentMessage)
                 }
-            } else {
-                message += item.message + "\n\n"
+                for (contactMessage in accidentMessage.contacts) {
+                    forwardMessage(accident, accidentMessage)
+                }
+                for (locationMessage in accidentMessage.locations) {
+                    forwardMessage(accident, accidentMessage)
+                }
             }
         }
+
         if (message.isNotEmpty()) {
             message = "Сообщение ($counter) от " + accident.user.compileTgName() + "\n\n$message"
-            val sendTextMessage = TgSendTextMessage(chatId, message)
+            sendMessageByChunks(message)
+        }
+    }
+
+    private fun forwardMessage(accident: ExistedAccident, accidentMessage: ExistedAccidentMessage) {
+        val forwardMessage = TgForwardMessage(
+                chatId = chatId,
+                fromChatId = accident.user.id,
+                messageId = accidentMessage.tgMessageId
+        )
+        telegramApi.forwardMessage(botToken, forwardMessage)
+    }
+
+    private fun sendMessageByChunks(message: String) {
+        val messages = stringCarefulDivider.divide(message)
+        for (messageItem in messages) {
+            val sendTextMessage = TgSendTextMessage(chatId, messageItem)
             telegramApi.sendMessage(botToken, sendTextMessage)
         }
+    }
+
+    companion object {
+        private val stringCarefulDivider = StringCarefulDivider()
     }
 }
