@@ -6,4 +6,4 @@ https://dtp-stat.ru/
 
 ## Run in Docker
 
-First you need build it. After run docker build...
+Search us in a docker-hub.
