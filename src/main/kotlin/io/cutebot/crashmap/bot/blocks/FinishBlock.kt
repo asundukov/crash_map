@@ -1,6 +1,7 @@
 package io.cutebot.crashmap.bot.blocks
 
 import io.cutebot.telegram.bot.block.BotBlock
+import io.cutebot.telegram.bot.model.message.AudioMessage
 import io.cutebot.telegram.bot.model.message.ContactMessage
 import io.cutebot.telegram.bot.model.message.DocumentMessage
 import io.cutebot.telegram.bot.model.message.LocationMessage
@@ -15,6 +16,11 @@ class FinishBlock : BotBlock {
     private var nextMessage = thanksText
     override fun getAnswer(): ChatAnswer {
         return ChatAnswer.text(nextMessage)
+    }
+
+    override fun handleAudio(message: AudioMessage): BotBlock {
+        nextMessage = pleaseRenew
+        return this
     }
 
     override fun handleContact(message: ContactMessage): BotBlock {
